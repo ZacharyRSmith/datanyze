@@ -19,7 +19,17 @@ window.layoutCommands = function (session, commands) {
   function $centerVertical ($elt) {
     $elt.css("margin-top", ($elt.parent().height() - $elt.height())/2 + 'px')
   }
-  function appendClassBoundary (time, text) {
+  function $finishStyle () {
+    $('.column-left').each(function () {
+      $centerVertical($(this));
+    });
+    $('.column-right').each(function () {
+      $centerVertical($(this));
+    });
+
+    drawConnector($('.class-boundary')[0], $('.class-boundary')[1]);
+  }
+  function $appendClassBoundary (time, text) {
     $('#schedule').append(
       '<div class="command-container">' +
         '<div class="column-left time">' + time + '</div>' +
@@ -31,7 +41,7 @@ window.layoutCommands = function (session, commands) {
       '</div>'
     );
   }
-  function appendCommand (command) {
+  function $appendCommand (command) {
     $('#schedule').append(
       '<div class="command-container">' +
         '<div class="column-left time">' + command.timestamp + '</div>' +
@@ -43,6 +53,20 @@ window.layoutCommands = function (session, commands) {
         '<div class="column-right"></div>' +
       '</div>'
     );
+  }
+  function $appendFillerDiv () {
+    $('#schedule').append(
+      '<div class="filler"></div>'
+    );
+  }
+  function $drawSchedule (session, commands) {
+    $appendClassBoundary(formatTime(session.endTime), "ended");
+    commands.forEach(function (command) {
+      $appendFillerDiv();
+      $appendCommand(command);
+    });
+    $appendFillerDiv();
+    $appendClassBoundary(formatTime(session.startTime), "started");
   }
   function drawConnector (source, target) {
     jsPlumb.connect({
@@ -68,16 +92,7 @@ window.layoutCommands = function (session, commands) {
 
   prepCommands(commands);
 
-  appendClassBoundary(formatTime(session.endTime), "ended");
-  commands.forEach(function (command) { appendCommand(command); });
-  appendClassBoundary(formatTime(session.startTime), "started");
+  $drawSchedule();
 
-  $('.column-left').each(function () {
-    $centerVertical($(this));
-  });
-  $('.column-right').each(function () {
-    $centerVertical($(this));
-  });
-
-  drawConnector($('.class-boundary')[0], $('.class-boundary')[1]);
+  $finishStyle();
 };

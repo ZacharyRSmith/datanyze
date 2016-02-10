@@ -22,6 +22,10 @@ h1 {
 .class-started {
     color: #1CC1AE;
 }
+/* Filler divs add space between icons */
+.filler {
+    height: 50px;
+}
 
 
 /* COLUMNS */
