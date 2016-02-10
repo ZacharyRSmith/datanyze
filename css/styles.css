@@ -3,6 +3,9 @@ body {
     color: #7D8487;
     font-family: Skyler, "Horatio Bold", Helvetica;
 }
+h1 {
+    font-size: 24px;
+}
 .command {
     clear: both;
     float: left;

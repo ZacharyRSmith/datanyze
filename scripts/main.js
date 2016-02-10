@@ -27,6 +27,7 @@ window.layoutCommands = function (session, commands) {
       '<div class="command-container">' +
         '<div class="column-left time">' + time + '</div>' +
         '<span class="class-boundary column-center fa-stack fa-lg">' +
+          '<i class="fa fa-circle fa-stack-2x"></i>' +
           '<i class="fa fa-circle-thin fa-stack-2x"></i>' +
           '<i class="fa fa-lock fa-stack-1x"></i>' +
         '</span>' +
@@ -62,4 +63,13 @@ window.layoutCommands = function (session, commands) {
 
   var startTime = formatTime(session.startTime);
   appendClassBoundary(startTime, "Class session started");
+
+  jsPlumb.connect({
+      source: $('.class-boundary')[0],
+      target: $('.class-boundary')[1],
+
+      anchor: "Center",
+      connector: "Straight",
+      endpoint:"Blank"
+  });
 };
