@@ -6,13 +6,15 @@ body {
 h1 {
     font-size: 24px;
 }
-.command {
-    clear: both;
-    float: left;
-}
+
+
+/* FONT AWESOME */
 .fa-circle {
     color: #EDEEF0;
-    z-index: 0;
+}
+/* Outer ring on circle */
+.fa-circle-thin {
+    color: white;
 }
 .class-ended {
     color: #DD4948;
@@ -20,12 +22,12 @@ h1 {
 .class-started {
     color: #1CC1AE;
 }
-.fa-circle-thin {
-    color: white;
-    z-index: 1;
-}
+
 
 /* COLUMNS */
+#schedule {
+    width: 400px;
+}
 .column-left {
     float: left;
     text-align: center;
@@ -43,11 +45,8 @@ h1 {
     width: 50%;
 }
 
-#schedule {
-    width: 400px;
-}
 
-/* Z-INDEX */
+/* Z-INDEX TO PUSH CONNECTOR BEHIND FONT AWESOME STUFF */
 .fa { z-index:20; }
 .jsplumb-connector { z-index:4; }
 .jsplumb-endpoint { z-index:5; }
