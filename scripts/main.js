@@ -27,11 +27,10 @@ window.layoutCommands = function (session, commands) {
       '<div class="command-container">' +
         '<div class="column-left time">' + time + '</div>' +
         '<span class="class-boundary column-center fa-stack fa-lg">' +
-          '<i class="fa fa-circle fa-stack-2x"></i>' +
+          '<i class="class-' + text + ' fa fa-circle fa-stack-2x"></i>' +
           '<i class="fa fa-circle-thin fa-stack-2x"></i>' +
-          '<i class="fa fa-lock fa-stack-1x"></i>' +
         '</span>' +
-        '<div class="column-right">' + text + '</div>' +
+        '<div class="column-right">Class session ' + text + '</div>' +
       '</div>'
     );
   }
@@ -45,7 +44,7 @@ window.layoutCommands = function (session, commands) {
           '<i class="fa fa-circle-thin fa-stack-2x"></i>' +
           '<i class="fa fa-lock fa-stack-1x"></i>' +
         '</span>' +
-        '<div class="column-right">' + command.commandName + '</div>' +
+        '<div class="column-right"></div>' +
       '</div>'
     );
   }
@@ -55,14 +54,14 @@ window.layoutCommands = function (session, commands) {
   }
 
   var endTime = formatTime(session.endTime);
-  appendClassBoundary(endTime, "Class session ended");
+  appendClassBoundary(endTime, "ended");
 
   commands.forEach(function (command) {
     appendCommand(command);
   });
 
   var startTime = formatTime(session.startTime);
-  appendClassBoundary(startTime, "Class session started");
+  appendClassBoundary(startTime, "started");
 
   jsPlumb.connect({
       source: $('.class-boundary')[0],
@@ -71,5 +70,12 @@ window.layoutCommands = function (session, commands) {
       anchor: "Center",
       connector: "Straight",
       endpoint:"Blank"
+  });
+
+  $('.column-left').each(function (i, cell) {
+    $(this).css("margin-top",($(this).parent().height() - $(this).height())/2 + 'px' )
+  });
+  $('.column-right').each(function (i, cell) {
+    $(this).css("margin-top",($(this).parent().height() - $(this).height())/2 + 'px' )
   });
 };
