@@ -15,13 +15,10 @@ window.layoutCommands = function (session, commands) {
   //     commandType:'comment­o'
   //   }
   // ];
-  commands.sort(function (a, b) {
-    return b.timestamp - a.timestamp;
-  });
-  commands.forEach(function (command) {
-    command.timestamp = formatTime(command.timestamp);
-  });
 
+  function $centerVertical ($elt) {
+    $elt.css("margin-top", ($elt.parent().height() - $elt.height())/2 + 'px')
+  }
   function appendClassBoundary (time, text) {
     $('#schedule').append(
       '<div class="command-container">' +
@@ -34,7 +31,6 @@ window.layoutCommands = function (session, commands) {
       '</div>'
     );
   }
-
   function appendCommand (command) {
     $('#schedule').append(
       '<div class="command-container">' +
@@ -48,34 +44,40 @@ window.layoutCommands = function (session, commands) {
       '</div>'
     );
   }
-
-  function formatTime (timestamp) {
-    return moment.unix(timestamp).format("h.mma");
-  }
-
-  var endTime = formatTime(session.endTime);
-  appendClassBoundary(endTime, "ended");
-
-  commands.forEach(function (command) {
-    appendCommand(command);
-  });
-
-  var startTime = formatTime(session.startTime);
-  appendClassBoundary(startTime, "started");
-
-  jsPlumb.connect({
-      source: $('.class-boundary')[0],
-      target: $('.class-boundary')[1],
+  function drawConnector (source, target) {
+    jsPlumb.connect({
+      source: source,
+      target: target,
 
       anchor: "Center",
       connector: "Straight",
       endpoint:"Blank"
+    });
+  }
+  function formatTime (timestamp) {
+    return moment.unix(timestamp).format("h.mma");
+  }
+  function prepCommands (commands) {
+    commands.sort(function (a, b) {
+      return b.timestamp - a.timestamp;
+    });
+    commands.forEach(function (command) {
+      command.timestamp = formatTime(command.timestamp);
+    });
+  }
+
+  prepCommands(commands);
+
+  appendClassBoundary(formatTime(session.endTime), "ended");
+  commands.forEach(function (command) { appendCommand(command); });
+  appendClassBoundary(formatTime(session.startTime), "started");
+
+  $('.column-left').each(function () {
+    $centerVertical($(this));
+  });
+  $('.column-right').each(function () {
+    $centerVertical($(this));
   });
 
-  $('.column-left').each(function (i, cell) {
-    $(this).css("margin-top",($(this).parent().height() - $(this).height())/2 + 'px' )
-  });
-  $('.column-right').each(function (i, cell) {
-    $(this).css("margin-top",($(this).parent().height() - $(this).height())/2 + 'px' )
-  });
+  drawConnector($('.class-boundary')[0], $('.class-boundary')[1]);
 };
