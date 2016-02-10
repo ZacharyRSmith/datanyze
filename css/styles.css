@@ -7,8 +7,13 @@ body {
     clear: both;
     float: left;
 }
-.fa-stack-2x {
+.fa-circle {
+    color: #EDEEF0;
+    z-index: 0;
+}
+.fa-circle-thin {
     color: white;
+    z-index: 1;
 }
 
 /* COLUMNS */
@@ -30,3 +35,9 @@ body {
 #schedule {
     width: 400px;
 }
+
+/* Z-INDEX */
+.fa { z-index:20; }
+.jsplumb-connector { z-index:4; }
+.jsplumb-endpoint { z-index:5; }
+.jsplumb-overlay { z-index:6; }
